@@ -8,9 +8,14 @@
 </head>
 <body>
     <div id="dashboard">
-        <h1>Israeli News Headlines</h1>
-        <div id="last-update"></div>
-        <div id="headlines"></div>
+        <div class="col" id="col-toi">
+            <h2 class="col-title">Times of Israel</h2>
+            <ul class="headline-list" id="list-toi"></ul>
+        </div>
+        <div class="col" id="col-ynet">
+            <h2 class="col-title">Ynet</h2>
+            <ul class="headline-list" id="list-ynet"></ul>
+        </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/relativeTime.js"></script>

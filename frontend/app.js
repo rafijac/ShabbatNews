@@ -1,37 +1,24 @@
-async function fetchAggregatedNews() {
+async function fetchHeadlines() {
     try {
-        const res = await fetch('/api/aggregated-news');
+        const res = await fetch('/api/headlines');
         const data = await res.json();
-        renderAggregatedNews(data);
+        renderCol('list-toi', data.timesofisrael);
+        renderCol('list-ynet', data.ynet);
     } catch (e) {
-        document.getElementById('headlines').innerHTML = '<p style="color:red">Failed to load aggregated news.</p>';
-    }
-}
-
-function renderAggregatedNews(data) {
-    const container = document.getElementById('headlines');
-    const lastUpdateDiv = document.getElementById('last-update');
-    container.innerHTML = '';
-    // Summary header
-    if (data.summary_header) {
-        const headerDiv = document.createElement('div');
-        headerDiv.className = 'summary-header';
-        headerDiv.innerHTML = `<h2>Summary</h2><p>${data.summary_header}</p>`;
-        container.appendChild(headerDiv);
-    }
-    // Attributed news items
-    if (Array.isArray(data.items)) {
-        const ul = document.createElement('ul');
-        ul.className = 'aggregated-list';
-        data.items.forEach(item => {
-            const li = document.createElement('li');
-            li.innerHTML = `<span class="headline-title">${item.summary}</span> <span class="headline-source">[<a href="${item.url}" target="_blank">${item.source}</a>]</span>`;
-            ul.appendChild(li);
+        ['list-toi', 'list-ynet'].forEach(id => {
+            document.getElementById(id).innerHTML = '<li class="error">Failed to load headlines.</li>';
         });
-        container.appendChild(ul);
     }
-    lastUpdateDiv.innerHTML = '';
 }
 
-fetchAggregatedNews();
-setInterval(fetchAggregatedNews, 60000);
+function renderCol(listId, source) {
+    const ul = document.getElementById(listId);
+    if (!source || !source.headlines) { ul.innerHTML = '<li class="error">No data.</li>'; return; }
+    ul.innerHTML = source.headlines.map(h => {
+        const ago = h.published ? dayjs(h.published).fromNow() : '';
+        return `<li><span class="hl-title">${h.title}</span><span class="hl-ago">${ago}</span></li>`;
+    }).join('');
+}
+
+fetchHeadlines();
+setInterval(fetchHeadlines, 60000);

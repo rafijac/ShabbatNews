@@ -2,8 +2,3 @@ fastapi
 uvicorn
 feedparser
 python-dotenv
-langgraph
-httpx
-groq
-
-# v0.7.0: LLM-powered aggregation, Groq, LangGraph
