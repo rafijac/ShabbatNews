@@ -8,12 +8,31 @@ body {
     font-family: 'Segoe UI', Arial, sans-serif;
     height: 100vh;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+#header-bar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0.3rem 1.2rem;
+    background: #1a1a1a;
+    border-bottom: 2px solid #2e2e2e;
+    flex-shrink: 0;
+    height: 32px;
+}
+
+#last-refreshed {
+    font-size: 0.8rem;
+    color: #666;
+    letter-spacing: 0.4px;
 }
 
 #dashboard {
     display: flex;
-    height: 100vh;
-    gap: 0;
+    flex: 1;
+    overflow: hidden;
 }
 
 .col {
@@ -75,66 +94,4 @@ body {
 .error {
     color: #ff6b6b;
     padding: 1rem;
-}
-    margin-bottom: 1.5rem;
-    font-size: 1.1rem;
-    color: #cccccc;
-    text-align: center;
-}
-
-#headlines {
-    margin-top: 1rem;
-    width: 90vw;
-    max-width: 900px;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-}
-.source {
-    background: #232323;
-    border-radius: 14px;
-    padding: 1.7rem 2rem 1.2rem 2rem;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
-    transition: box-shadow 0.2s;
-    position: relative;
-}
-.source:hover {
-    box-shadow: 0 8px 32px rgba(0,0,0,0.28);
-}
-.source h2 {
-    color: #ffcc00;
-    margin-bottom: 1rem;
-}
-.headline-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-.headline-list li {
-    font-size: 1.18rem;
-    margin-bottom: 0.6rem;
-    line-height: 1.5;
-    display: flex;
-    align-items: baseline;
-    gap: 0.7em;
-}
-.headline-title {
-    font-weight: 500;
-    color: #fff;
-}
-.headline-time {
-    font-size: 0.98em;
-    color: #b0b0b0;
-    font-weight: 400;
-}
-.source-update {
-    margin-top: 1.2rem;
-    font-size: 1.02rem;
-    color: #a0a0a0;
-    text-align: right;
-}
-.dashboard-update {
-    font-size: 1.08rem;
-    color: #ffcc00;
-    font-weight: 500;
 }

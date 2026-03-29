@@ -1,18 +1,16 @@
 from fastapi import FastAPI
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
 import feedparser
 from dotenv import load_dotenv
-import os
 import pathlib
 from datetime import datetime, timezone
+
 
 load_dotenv()
 
 app = FastAPI()
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -30,8 +28,6 @@ def serve_index():
 
 FEEDS = {
     "timesofisrael": "https://www.timesofisrael.com/feed/",
-    "ynet": "https://www.ynet.co.il/Integration/StoryRss2.xml",
-    "jpost": "https://www.jpost.com/Rss/RssFeedsHeadlines.aspx"
 }
 
 @app.get("/api/headlines")
@@ -42,7 +38,6 @@ def get_headlines():
         now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
         items = []
         for entry in d.entries[:10]:
-            published = None
             if hasattr(entry, "published_parsed") and entry.published_parsed:
                 published = datetime(*entry.published_parsed[:6], tzinfo=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
             elif hasattr(entry, "published"):
@@ -51,10 +46,10 @@ def get_headlines():
                 published = now
             items.append({
                 "title": entry.title,
-                "published": published
+                "published": published,
+                "summary": getattr(entry, "summary", ""),
             })
-        result[name] = {
-            "headlines": items,
-            "last_fetch": now
-        }
+        for item in items:
+            item.pop("summary", None)
+        result[name] = {"headlines": items, "last_fetch": now}
     return JSONResponse(result)
